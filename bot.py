@@ -1,9 +1,7 @@
 import discord
 import asyncio
 import os
-from datetime import datetime
 from discord.ext import commands
-from config import settings
 bot = commands.Bot(command_prefix = '!!')
 bot.remove_command('help')
 #=====================================================================================Commands=====================================================================================
