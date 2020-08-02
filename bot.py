@@ -265,4 +265,4 @@ async def on_member_remove(member):
 
 
 token = os.environ.get('BOT_TOKEN') 
-bot.run(token)
+bot.run(str(token))
