@@ -1,2 +1,6 @@
 discord.py
 asyncio
+aiohttp
+websockets
+chardet
+os
