@@ -51,73 +51,68 @@ async def serverinfo(ctx):
     await ctx.send(embed = embed)
     print('%(guild)s -> Участник %(author)s использовал команду serverinfo' %{'guild': guild,'author': author})
     await lc.send('%(guild)s -> Участник %(author)s использовал команду serverinfo' %{'guild': guild,'author': author})
-@bot.command()
-async def info(ctx):
+@bot.command(aliases=['u', 'ui'])
+async def userinfo(ctx, member: discord.Member = None):
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
     guild = ctx.message.guild
-    name = ctx.message.author.name
-    avatar = ctx.message.author.avatar
-    avatar_url = ctx.message.author.avatar_url
-    id = ctx.message.author.id
-    time = ctx.message.author.created_at
-    author = ctx.message.author
-    if avatar == None:
-        vicon = 'Отсутствует'
-    else:
-        vicon = '⠀'
-    if vicon == '⠀':
-        embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
-        embed.add_field(name = 'Никнейм:', value = name)
-        embed.add_field(name = 'Аватар:', value = vicon)
-        embed.add_field(name = 'Id:', value  = id, inline = False)
-        embed.add_field(name = 'Время создания аккаунта:', value = time)
-        embed.set_thumbnail(url = avatar_url)
-        embed.set_footer(text = author, icon_url = avatar_url)
-    else:
-        embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
-        embed.add_field(name = 'Никнейм:', value = name)
-        embed.add_field(name = 'Аватар:', value = vicon)
-        embed.add_field(name = 'Id:', value  = id, inline = False)
-        embed.add_field(name = 'Время создания аккаунта:', value = time)
-        embed.set_footer(text = author, icon_url = avatar_url)
-    await ctx.send(embed = embed)
-    print('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
-    await lc.send('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
-@bot.command()
-async def userinfo(ctx, member:discord.Member = None):
-    lg = bot.get_guild(739951510892314654)
-    lc = lg.get_channel(739952498797838366)
-    guild = ctx.message.guild
-    name = member.name
-    avatar = member.avatar
-    avatar_url = member.avatar_url
-    id = member.id
-    time = member.created_at
     author = ctx.message.author
     author_url = ctx.message.author.avatar_url
-    if avatar == None:
-        vicon = 'Отсутствует'
+    if not member:
+        name = ctx.message.author.name
+        avatar = ctx.message.author.avatar
+        id = ctx.message.author.id
+        time = ctx.message.author.created_at
+        if avatar == None:
+            vicon = 'Отсутствует'
+        else:
+            vicon = '⠀'
+        if vicon == '⠀':
+            embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
+            embed.add_field(name = 'Никнейм:', value = name)
+            embed.add_field(name = 'Аватар:', value = vicon)
+            embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Время создания аккаунта:', value = time)
+            embed.set_thumbnail(url = avatar_url)
+            embed.set_footer(text = author, icon_url = author_url)
+        else:
+            embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
+            embed.add_field(name = 'Никнейм:', value = name)
+            embed.add_field(name = 'Аватар:', value = vicon)
+            embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Время создания аккаунта:', value = time)
+            embed.set_footer(text = author, icon_url = author_url)
+        await ctx.send(embed = embed)
+        print('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
+        await lc.send('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
     else:
-        vicon = '⠀'
-    if vicon == '⠀':
-        embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
-        embed.add_field(name = 'Никнейм:', value = name)
-        embed.add_field(name = 'Аватар:', value = vicon)
-        embed.add_field(name = 'Id:', value  = id, inline = False)
-        embed.add_field(name = 'Время создания аккаунта:', value = time)
-        embed.set_thumbnail(url = avatar_url)
-        embed.set_footer(text = author, icon_url = author_url)
-    else:
-        embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
-        embed.add_field(name = 'Никнейм:', value = name)
-        embed.add_field(name = 'Аватар:', value = vicon)
-        embed.add_field(name = 'Id:', value  = id, inline = False)
-        embed.add_field(name = 'Время создания аккаунта:', value = time)
-        embed.set_footer(text = author, icon_url = author_url)
-    await ctx.send(embed = embed)
-    print('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
-    await lc.send('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
+        name = member.name
+        avatar = member.avatar
+        avatar_url = member.avatar_url
+        id = member.id
+        time = member.created_at
+        if avatar == None:
+            vicon = 'Отсутствует'
+        else:
+            vicon = '⠀'
+        if vicon == '⠀':
+            embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
+            embed.add_field(name = 'Никнейм:', value = name)
+            embed.add_field(name = 'Аватар:', value = vicon)
+            embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Время создания аккаунта:', value = time)
+            embed.set_thumbnail(url = avatar_url)
+            embed.set_footer(text = author, icon_url = author_url)
+        else:
+            embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
+            embed.add_field(name = 'Никнейм:', value = name)
+            embed.add_field(name = 'Аватар:', value = vicon)
+            embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Время создания аккаунта:', value = time)
+            embed.set_footer(text = author, icon_url = author_url)
+        await ctx.send(embed = embed)
+        print('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
+        await lc.send('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
 @bot.command()
 @commands.has_permissions(administrator = True)
 async def mute(ctx: commands.Context, member:discord.Member = None, time: int = None, *, reason = None):
