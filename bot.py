@@ -116,12 +116,14 @@ async def userinfo(ctx, member: discord.Member = None):
 @bot.command()
 @commands.has_permissions(administrator = True)
 async def mute(ctx: commands.Context, member:discord.Member = None, time: int = None, *, reason = None):
+    url = 'https://s7.gifyu.com/images/mute-2.gif'
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
     guild = ctx.message.guild
     role = guild.get_role(737056764050145360)
     author = ctx.message.author
     moder = ctx.message.author.mention
+    muted = member.mention
     channel = guild.get_channel(738127371642732744)
     if not member:
         await ctx.send('Вы не указали пользователя')
@@ -133,9 +135,10 @@ async def mute(ctx: commands.Context, member:discord.Member = None, time: int = 
                 reason = 'Не указана'
                 embed = discord.Embed(title = 'Мут', colour = discord.Colour.red())
                 embed.add_field(name = 'Модератор:', value = moder, inline = False)
-                embed.add_field(name = 'Нарушитель:', value = member, inline = False)
+                embed.add_field(name = 'Нарушитель:', value = muted, inline = False)
                 embed.add_field(name = 'Время:', value = '%(time)s минут' %{'time': time}, inline = False)
                 embed.add_field(name = 'Причина:', value = reason, inline = False)
+                embed.set_thumbnail(url = url)
                 await member.add_roles(role)
                 await channel.send(embed = embed)
                 print('%(guild)s -> Модератор %(author)s выдал мут %(muted)s на %(time)s минут по причине: %(reason)s' %{'guild': guild,'author': author, 'muted': member, 'time': time, 'reason': reason})
@@ -145,9 +148,10 @@ async def mute(ctx: commands.Context, member:discord.Member = None, time: int = 
             else:
                 embed = discord.Embed(title = 'Мут', colour = discord.Colour.red())
                 embed.add_field(name = 'Модератор:', value = moder, inline = False)
-                embed.add_field(name = 'Нарушитель:', value = member, inline = False)
+                embed.add_field(name = 'Нарушитель:', value = muted, inline = False)
                 embed.add_field(name = 'Время:', value = '%(time)s минут' %{'time': time}, inline = False)
                 embed.add_field(name = 'Причина:', value = reason, inline = False)
+                embed.set_thumbnail(url = url)
                 await member.add_roles(role)
                 await channel.send(embed = embed)
                 print('%(guild)s -> Модератор %(author)s выдал мут %(muted)s на %(time)s минут по причине: %(reason)s' %{'guild': guild,'author': author, 'muted': member, 'time': time, 'reason': reason})
@@ -157,11 +161,13 @@ async def mute(ctx: commands.Context, member:discord.Member = None, time: int = 
 @bot.command()
 @commands.has_permissions(administrator = True)
 async def unmute(ctx, member:discord.Member = None):
+    url = 'https://s7.gifyu.com/images/unmute.gif'
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
     guild = ctx.message.guild
     role = guild.get_role(737056764050145360)
     moder = ctx.message.author.mention
+    muted = member.mention
     author = ctx.message.author
     channel = guild.get_channel(738127371642732744)
     if not member:
@@ -169,7 +175,8 @@ async def unmute(ctx, member:discord.Member = None):
     else:
         embed = discord.Embed(title = 'Размут', colour = discord.Colour.green())
         embed.add_field(name = 'Модератор:', value = moder, inline = False)
-        embed.add_field(name = 'Нарушитель:', value = member, inline = False)
+        embed.add_field(name = 'Нарушитель:', value = muted, inline = False)
+        embed.set_thumbnail(url = url)
         await member.remove_roles(role)
         print('%(guild)s -> Модератор %(author)s снял мут %(muted)s' %{'guild': guild,'author': author, 'muted': member})
         await lc.send('%(guild)s -> Модератор %(author)s снял мут %(muted)s' %{'guild': guild,'author': author, 'muted': member})
@@ -177,10 +184,12 @@ async def unmute(ctx, member:discord.Member = None):
 @bot.command()
 @commands.has_permissions(administrator = True)
 async def kick(ctx, member:discord.Member = None, *, reason = None):
+    url = 'https://s7.gifyu.com/images/kick93a68b4b8d883629.gif'
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
     guild = ctx.message.guild
     moder = ctx.message.author.mention
+    kicked = member.mention
     author = ctx.message.author
     channel = guild.get_channel(738127371642732744)
     if not member:
@@ -190,12 +199,14 @@ async def kick(ctx, member:discord.Member = None, *, reason = None):
             reason = 'Не указана'
             embed = discord.Embed(title = 'Кик', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
-            embed.add_field(name = 'Нарушитель:', value = member, inline = False)
+            embed.add_field(name = 'Нарушитель:', value = kicked, inline = False)
             embed.add_field(name = 'Причина:', value = reason, inline = False)
+            embed.set_thumbnail(url = url)
             embed1 = discord.Embed(titel = 'Кик', colour = discord.Colour.red())
             embed1.description = 'Вас кикнули с сервера %(guild)s' %{'guild': guild}
             embed1.add_field(name = 'Модератор:', value = moder, inline = False)
             embed1.add_field(name = 'Причина:', value = reason, inline = False)
+            embed1.set_thumbnail(url = url)
             await member.kick()
             await member.send(embed = embed1)
             await channel.send(embed = embed)
@@ -204,12 +215,14 @@ async def kick(ctx, member:discord.Member = None, *, reason = None):
         else:
             embed = discord.Embed(title = 'Кик', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
-            embed.add_field(name = 'Нарушитель:', value = member, inline = False)
+            embed.add_field(name = 'Нарушитель:', value = kicked, inline = False)
             embed.add_field(name = 'Причина:', value = reason, inline = False)
+            embed.set_thumbnail(url = url)
             embed1 = discord.Embed(titel = 'Кик', colour = discord.Colour.red())
             embed1.description = 'Вас кикнули с сервера %(guild)s' %{'guild': guild}
             embed1.add_field(name = 'Модератор:', value = moder, inline = False)
             embed1.add_field(name = 'Причина:', value = reason, inline = False)
+            embed1.set_thumbnail(url = url)
             await member.kick()
             await member.send(embed = embed1)
             await channel.send(embed = embed)
@@ -218,10 +231,12 @@ async def kick(ctx, member:discord.Member = None, *, reason = None):
 @bot.command()
 @commands.has_permissions(administrator = True)
 async def ban(ctx, member:discord.Member = None, *, reason = None):
+    url = 'https://s7.gifyu.com/images/ban.gif'
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
     guild = ctx.message.guild
     moder = ctx.message.author.mention
+    banned = member.mention
     author = ctx.message.author
     channel = guild.get_channel(738127371642732744)
     if not member:
@@ -231,12 +246,14 @@ async def ban(ctx, member:discord.Member = None, *, reason = None):
             reason = 'Не указана'
             embed = discord.Embed(title = 'Бан', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
-            embed.add_field(name = 'Нарушитель:', value = member, inline = False)
+            embed.add_field(name = 'Нарушитель:', value = banned, inline = False)
             embed.add_field(name = 'Причина:', value = reason, inline = False)
+            embed.set_thumbnail(url = url)
             embed1 = discord.Embed(titel = 'Бан', colour = discord.Colour.red())
             embed1.description = 'Вас забанили на сервере %(guild)s' %{'guild': guild}
             embed1.add_field(name = 'Модератор:', value = moder, inline = False)
             embed1.add_field(name = 'Причина:', value = reason, inline = False)
+            embed1.set_thumbnail(url = url)
             await member.ban()
             await member.send(embed = embed1)
             await channel.send(embed = embed)
@@ -245,12 +262,14 @@ async def ban(ctx, member:discord.Member = None, *, reason = None):
         else:
             embed = discord.Embed(title = 'Бан', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
-            embed.add_field(name = 'Нарушитель:', value = member, inline = False)
+            embed.add_field(name = 'Нарушитель:', value = banned, inline = False)
             embed.add_field(name = 'Причина:', value = reason, inline = False)
+            embed.set_thumbnail(url = url)
             embed1 = discord.Embed(titel = 'Бан', colour = discord.Colour.red())
             embed1.description = 'Вас забанили на сервере %(guild)s' %{'guild': guild}
             embed1.add_field(name = 'Модератор:', value = moder, inline = False)
             embed1.add_field(name = 'Причина:', value = reason, inline = False)
+            embed1.set_thumbnail(url = url)
             await member.ban()
             await member.send(embed = embed1)
             await channel.send(embed = embed)
@@ -292,6 +311,34 @@ async def help(ctx):
     await ctx.send(embed = embed)
     print('%(guild)s -> Участник %(author)s использовал команду help' %{'guild': guild,'author': author})
     await lc.send('%(guild)s -> Участник %(author)s использовал команду help' %{'guild': guild,'author': author})
+@bot.command()
+async def b(ctx):
+    url = 'https://s7.gifyu.com/images/ban.gif'
+    embed = discord.Embed(title = 'Бан', colour = discord.Colour.red())
+    embed.add_field(name = 'Модератор:', value = 'Denisska008', inline = False)
+    embed.add_field(name = 'Нарушитель:', value = 'Denisska008', inline = False)
+    embed.add_field(name = 'Причина:', value = 'Тест', inline = False)
+    embed.set_thumbnail(url = url)
+    await ctx.send(embed = embed)
+@bot.command()
+async def m(ctx):
+    url = 'https://s7.gifyu.com/images/mute-2.gif'
+    embed = discord.Embed(title = 'Мут', colour = discord.Colour.red())
+    embed.add_field(name = 'Модератор:', value = 'Denisska008', inline = False)
+    embed.add_field(name = 'Нарушитель:', value = 'Denisska008', inline = False)
+    embed.add_field(name = 'Время:', value = 'Навечно бл')
+    embed.add_field(name = 'Причина:', value = 'Тест', inline = False)
+    embed.set_thumbnail(url = url)
+    await ctx.send(embed = embed)
+@bot.command()
+async def k(ctx):
+    url = 'https://s7.gifyu.com/images/kick93a68b4b8d883629.gif'
+    embed = discord.Embed(title = 'Кик', colour = discord.Colour.red())
+    embed.add_field(name = 'Модератор:', value = 'Denisska008', inline = False)
+    embed.add_field(name = 'Нарушитель:', value = 'Denisska008', inline = False)
+    embed.add_field(name = 'Причина:', value = 'Тест', inline = False)
+    embed.set_thumbnail(url = url)
+    await ctx.send(embed = embed)
 #=====================================================================================Events=====================================================================================
 @bot.event
 async def on_command_error(ctx, error):
