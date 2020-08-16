@@ -5,7 +5,7 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix = '!!')
 bot.remove_command('help')
 #=====================================================================================Commands=====================================================================================
-@bot.command()
+@bot.command(aliases=['si', 'серверинфо'])
 async def serverinfo(ctx):
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
@@ -51,7 +51,7 @@ async def serverinfo(ctx):
     await ctx.send(embed = embed)
     print('%(guild)s -> Участник %(author)s использовал команду serverinfo' %{'guild': guild,'author': author})
     await lc.send('%(guild)s -> Участник %(author)s использовал команду serverinfo' %{'guild': guild,'author': author})
-@bot.command(aliases=['u', 'ui'])
+@bot.command(aliases=['юсеринфо', 'ui'])
 async def userinfo(ctx, member: discord.Member = None):
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
@@ -113,7 +113,7 @@ async def userinfo(ctx, member: discord.Member = None):
         await ctx.send(embed = embed)
         print('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
         await lc.send('%(guild)s -> Участник %(author)s использовал команду userinfo' %{'guild': guild,'author': author})
-@bot.command()
+@bot.command(aliases=['m', 'м', 'мьют'])
 @commands.has_permissions(administrator = True)
 async def mute(ctx: commands.Context, member:discord.Member = None, time: int = None, *, reason = None):
     url = 'https://s7.gifyu.com/images/mute-2.gif'
@@ -158,7 +158,7 @@ async def mute(ctx: commands.Context, member:discord.Member = None, time: int = 
                 await lc.send('%(guild)s -> Модератор %(author)s выдал мут %(muted)s на %(time)s минут по причине: %(reason)s' %{'guild': guild,'author': author, 'muted': member, 'time': time, 'reason': reason})
                 await asyncio.sleep(time * 60)
                 await member.remove_roles(role)
-@bot.command()
+@bot.command(aliases=['um', 'р', 'размут'])
 @commands.has_permissions(administrator = True)
 async def unmute(ctx, member:discord.Member = None):
     url = 'https://s7.gifyu.com/images/unmute.gif'
@@ -181,7 +181,7 @@ async def unmute(ctx, member:discord.Member = None):
         print('%(guild)s -> Модератор %(author)s снял мут %(muted)s' %{'guild': guild,'author': author, 'muted': member})
         await lc.send('%(guild)s -> Модератор %(author)s снял мут %(muted)s' %{'guild': guild,'author': author, 'muted': member})
         await channel.send(embed = embed)
-@bot.command()
+@bot.command(aliases=['k', 'кик', 'к'])
 @commands.has_permissions(administrator = True)
 async def kick(ctx, member:discord.Member = None, *, reason = None):
     url = 'https://s7.gifyu.com/images/kick93a68b4b8d883629.gif'
@@ -228,7 +228,7 @@ async def kick(ctx, member:discord.Member = None, *, reason = None):
             await channel.send(embed = embed)
             print('%(guild)s -> Модератор %(author)s кикнул %(kick)s по причине: %(reason)s' %{'guild': guild,'author': author, 'kick': member, 'reason': reason})
             await lc.send('%(guild)s -> Модератор %(author)s кикнул %(kick)s по причине: %(reason)s' %{'guild': guild,'author': author, 'kick': member, 'reason': reason})
-@bot.command()
+@bot.command(aliases=['b', 'бан', 'б'])
 @commands.has_permissions(administrator = True)
 async def ban(ctx, member:discord.Member = None, *, reason = None):
     url = 'https://s7.gifyu.com/images/ban.gif'
@@ -275,7 +275,7 @@ async def ban(ctx, member:discord.Member = None, *, reason = None):
             await channel.send(embed = embed)
             print('%(guild)s -> Модератор %(author)s забанил %(ban)s по причине: %(reason)s' %{'guild': guild,'author': author, 'ban': member, 'reason': reason})
             await lc.send('%(guild)s -> Модератор %(author)s забанил %(ban)s по причине: %(reason)s' %{'guild': guild,'author': author, 'ban': member, 'reason': reason})
-@bot.command()
+@bot.command(aliases=['c', 'очистить'])
 @commands.has_permissions(administrator = True)
 async  def clear(ctx, count = 10):
     lg = bot.get_guild(739951510892314654)
@@ -286,7 +286,7 @@ async  def clear(ctx, count = 10):
     guild = ctx.message.guild
     print('%(guild)s -> Модератор %(author)s удалил %(count)s сообщений в канале %(channel)s' %{'guild': guild,'author': author, 'count': count, 'channel': channel})
     await lc.send('%(guild)s -> Модератор %(author)s удалил %(count)s сообщений в канале %(channel)s' %{'guild': guild,'author': author, 'count': count, 'channel': channel})
-@bot.command()
+@bot.command(aliases=['i', 'инвайт', 'пригласить'])
 async def invite(ctx):
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
@@ -297,7 +297,7 @@ async def invite(ctx):
     await ctx.send(embed = embed)
     print('%(guild)s -> Участник %(author)s использовал команду invite' %{'guild': guild,'author': author})
     await lc.send('%(guild)s -> Участник %(author)s использовал команду invite' %{'guild': guild,'author': author})
-@bot.command()
+@bot.command(aliases=['h', 'хелп', 'помощь'])
 async def help(ctx):
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
@@ -311,34 +311,6 @@ async def help(ctx):
     await ctx.send(embed = embed)
     print('%(guild)s -> Участник %(author)s использовал команду help' %{'guild': guild,'author': author})
     await lc.send('%(guild)s -> Участник %(author)s использовал команду help' %{'guild': guild,'author': author})
-@bot.command()
-async def b(ctx):
-    url = 'https://s7.gifyu.com/images/ban.gif'
-    embed = discord.Embed(title = 'Бан', colour = discord.Colour.red())
-    embed.add_field(name = 'Модератор:', value = 'Denisska008', inline = False)
-    embed.add_field(name = 'Нарушитель:', value = 'Denisska008', inline = False)
-    embed.add_field(name = 'Причина:', value = 'Тест', inline = False)
-    embed.set_thumbnail(url = url)
-    await ctx.send(embed = embed)
-@bot.command()
-async def m(ctx):
-    url = 'https://s7.gifyu.com/images/mute-2.gif'
-    embed = discord.Embed(title = 'Мут', colour = discord.Colour.red())
-    embed.add_field(name = 'Модератор:', value = 'Denisska008', inline = False)
-    embed.add_field(name = 'Нарушитель:', value = 'Denisska008', inline = False)
-    embed.add_field(name = 'Время:', value = 'Навечно бл')
-    embed.add_field(name = 'Причина:', value = 'Тест', inline = False)
-    embed.set_thumbnail(url = url)
-    await ctx.send(embed = embed)
-@bot.command()
-async def k(ctx):
-    url = 'https://s7.gifyu.com/images/kick93a68b4b8d883629.gif'
-    embed = discord.Embed(title = 'Кик', colour = discord.Colour.red())
-    embed.add_field(name = 'Модератор:', value = 'Denisska008', inline = False)
-    embed.add_field(name = 'Нарушитель:', value = 'Denisska008', inline = False)
-    embed.add_field(name = 'Причина:', value = 'Тест', inline = False)
-    embed.set_thumbnail(url = url)
-    await ctx.send(embed = embed)
 #=====================================================================================Events=====================================================================================
 @bot.event
 async def on_command_error(ctx, error):
