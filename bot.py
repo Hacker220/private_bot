@@ -325,8 +325,6 @@ async def on_ready():
     activity = discord.Activity(name="🔥24/7🔥", type = discord.ActivityType.watching)
     await lc.send('Бот авторизовался как %(name)s ' %{'name': name})
     print('Бот авторизовался как %(name)s ' %{'name': name})
-    #await bot.change_presence(activity = discord.Game('Developer %(d)s' %{'d': owner}), status = discord.Status.dnd)
-    #await bot.change_presence(activity = discord.Game('🔥24/7🔥'), status = discord.Status.dnd)
     await bot.change_presence(status=discord.Status.dnd, activity = activity)
 @bot.event
 async def on_member_join(member):
@@ -335,7 +333,7 @@ async def on_member_join(member):
     guild = member.guild
     name = guild.name
     user = member.name
-    role = guild.get_role(729643408846749736)
+    role = guild.get_role(745333239853482104)
     channel = guild.get_channel(738127371642732744)
     embed = discord.Embed(title=name,colour=discord.Colour.green())
     embed.description = '```yaml\n%(user)s присоединился к нам```' %{'user': user}
@@ -361,6 +359,15 @@ async def on_member_remove(member):
     await channel.send(embed = embed)
     print('%(name)s -> %(user)s покинул сервер' %{'user': user, 'name': name})
     await lc.send('%(name)s -> %(user)s покинул сервер' %{'user': user, 'name': name})
+@bot.event
+async def on_raw_reaction_add(reaction: discord.RawReactionActionEvent):
+    if not reaction.message_id == 746045697526071418: 
+        return
+    if not reaction.emoji.id == 746047427202515085:  
+        return
+    if member := reaction.member:
+        await member.add_roles(member.guild.get_role(746051787152425083))
+        await member.remove_roles(member.guild.get_role(745333239853482104))
 
 token = os.environ.get('BOT_TOKEN') 
 bot.run(str(token))
