@@ -115,7 +115,7 @@ async def userinfo(ctx, member: discord.Member = None):
         await lc.send(f'{guild} -> Участник {author} использовал команду userinfo')
 @bot.command(aliases=['m', 'м', 'мьют'])
 @commands.has_permissions(administrator = True)
-async def mute(ctx: commands.Context, member:discord.Member = None, time: int = None, *, reason = None):
+async def mute(ctx, member:discord.Member = None, time: int = None, *, reason = None):
     url = 'https://s7.gifyu.com/images/mute-2.gif'
     lg = bot.get_guild(739951510892314654)
     lc = lg.get_channel(739952498797838366)
@@ -123,7 +123,6 @@ async def mute(ctx: commands.Context, member:discord.Member = None, time: int = 
     role = guild.get_role(737056764050145360)
     author = ctx.message.author
     moder = ctx.message.author.mention
-    muted = member.mention
     channel = guild.get_channel(738127371642732744)
     if not member:
         await ctx.send('Вы не указали пользователя')
@@ -133,6 +132,7 @@ async def mute(ctx: commands.Context, member:discord.Member = None, time: int = 
         else:
             if not reason:
                 reason = 'Не указана'
+                muted = member.mention
                 embed = discord.Embed(title = 'Мут', colour = discord.Colour.red())
                 embed.add_field(name = 'Модератор:', value = moder, inline = False)
                 embed.add_field(name = 'Нарушитель:', value = muted, inline = False)
@@ -146,6 +146,7 @@ async def mute(ctx: commands.Context, member:discord.Member = None, time: int = 
                 await asyncio.sleep(time * 60)
                 await member.remove_roles(role)
             else:
+                muted = member.mention
                 embed = discord.Embed(title = 'Мут', colour = discord.Colour.red())
                 embed.add_field(name = 'Модератор:', value = moder, inline = False)
                 embed.add_field(name = 'Нарушитель:', value = muted, inline = False)
@@ -189,7 +190,6 @@ async def kick(ctx, member:discord.Member = None, *, reason = None):
     lc = lg.get_channel(739952498797838366)
     guild = ctx.message.guild
     moder = ctx.message.author.mention
-    kicked = member.mention
     author = ctx.message.author
     channel = guild.get_channel(738127371642732744)
     if not member:
@@ -197,6 +197,7 @@ async def kick(ctx, member:discord.Member = None, *, reason = None):
     else:
         if not reason:
             reason = 'Не указана'
+            kicked = member.mention
             embed = discord.Embed(title = 'Кик', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
             embed.add_field(name = 'Нарушитель:', value = kicked, inline = False)
@@ -213,6 +214,7 @@ async def kick(ctx, member:discord.Member = None, *, reason = None):
             print(f'{guild} -> Модератор {author} кикнул {member} по причине: {reason}')
             await lc.send(f'{guild} -> Модератор {author} кикнул {member} по причине: {reason}')
         else:
+            kicked = member.mention
             embed = discord.Embed(title = 'Кик', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
             embed.add_field(name = 'Нарушитель:', value = kicked, inline = False)
@@ -236,7 +238,6 @@ async def ban(ctx, member:discord.Member = None, *, reason = None):
     lc = lg.get_channel(739952498797838366)
     guild = ctx.message.guild
     moder = ctx.message.author.mention
-    banned = member.mention
     author = ctx.message.author
     channel = guild.get_channel(738127371642732744)
     if not member:
@@ -244,13 +245,14 @@ async def ban(ctx, member:discord.Member = None, *, reason = None):
     else:
         if not reason:
             reason = 'Не указана'
+            banned = member.mention
             embed = discord.Embed(title = 'Бан', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
             embed.add_field(name = 'Нарушитель:', value = banned, inline = False)
             embed.add_field(name = 'Причина:', value = reason, inline = False)
             embed.set_thumbnail(url = url)
             embed1 = discord.Embed(titel = 'Бан', colour = discord.Colour.red())
-            embed1.description = 'Вас забанили на сервере  guild ' %{'guild': guild}
+            embed1.description = f'Вас забанили на сервере {guild}'
             embed1.add_field(name = 'Модератор:', value = moder, inline = False)
             embed1.add_field(name = 'Причина:', value = reason, inline = False)
             embed1.set_thumbnail(url = url)
@@ -260,13 +262,14 @@ async def ban(ctx, member:discord.Member = None, *, reason = None):
             print(f'{guild} -> Модератор {author} забанил {member} по причине: {reason}')
             await lc.send(f'{guild} -> Модератор {author} забанил {member} по причине: {reason}')
         else:
+            banned = member.mention
             embed = discord.Embed(title = 'Бан', colour = discord.Colour.red())
             embed.add_field(name = 'Модератор:', value = moder, inline = False)
             embed.add_field(name = 'Нарушитель:', value = banned, inline = False)
             embed.add_field(name = 'Причина:', value = reason, inline = False)
             embed.set_thumbnail(url = url)
             embed1 = discord.Embed(titel = 'Бан', colour = discord.Colour.red())
-            embed1.description = 'Вас забанили на сервере  guild ' %{'guild': guild}
+            embed1.description = f'Вас забанили на сервере {guild}'
             embed1.add_field(name = 'Модератор:', value = moder, inline = False)
             embed1.add_field(name = 'Причина:', value = reason, inline = False)
             embed1.set_thumbnail(url = url)
@@ -288,17 +291,19 @@ async  def clear(ctx, count = 10):
     await lc.send(f'{guild} -> Модератор {author} удалил {count} сообщений в канале {channel}')
 @bot.command(aliases=['i', 'инвайт', 'пригласить'])
 async def invite(ctx):
-    lg = bot.get_guild(739951510892314654)
-    lc = lg.get_channel(739952498797838366)
-    guild = ctx.message.guild
-    author = ctx.message.author
-    avatar = author.avatar_url
-    embed = discord.Embed(title = 'Invite', colour = discord.Colour.gold())
-    embed.description = '[Группа в Discord](https://discord.gg/gFwZF2H)\n[Пригласить Бота](https://discord.com/oauth2/authorize?client_id=681951903130976382&permissions=8&scope=bot)'
-    embed.set_footer(text = author, icon_url = avatar)
-    await ctx.send(embed = embed)
-    print(f'{guild} -> Участник {author} использовал команду invite')
-    await lc.send(f'{guild}  -> Участник {author} использовал команду invite')
+        lg = bot.get_guild(739951510892314654)
+        lc = lg.get_channel(739952498797838366)
+        guild = ctx.message.guild
+        author = ctx.message.author
+        avatar = author.avatar_url
+        embed = discord.Embed(title = '**Denisska008**', colour = discord.Colour.gold())
+        embed.description = '[Группа в Discord](https://discord.gg/gFwZF2H)\n[Пригласить Бота](https://discord.com/oauth2/authorize?client_id=681951903130976382&permissions=8&scope=bot)'
+        embed.add_field(name = '👥 | Пользователей', value = f'``{len(bot.users)}``')
+        embed.add_field(name = '🌐 | Серверов', value = f'``{len(bot.guilds)}``')
+        embed.set_footer(text = author, icon_url = avatar)
+        await ctx.send(embed = embed)
+        print(f'{guild} -> Участник {author} использовал команду invite')
+        await lc.send(f'{guild}  -> Участник {author} использовал команду invite')
 @bot.command(aliases=['h', 'хелп', 'помощь'])
 async def help(ctx):
     lg = bot.get_guild(739951510892314654)
@@ -307,8 +312,8 @@ async def help(ctx):
     author = ctx.message.author
     avatar = author.avatar_url
     embed = discord.Embed(title = 'Помощь с командами', colour = discord.Colour.gold())
-    embed.add_field(name = 'Пользовательские команды:', value = '___help | userinfo | info | invite___', inline = False)
-    embed.add_field(name = 'Команды Администратора', value = '___mute | unmute | kick | ban | clear___', inline = False)
+    embed.add_field(name = 'Пользовательские команды:', value = '___help | userinfo | invite___', inline = False)
+    embed.add_field(name = 'Команды для администраторов', value = '___mute | unmute | kick | ban | clear___', inline = False)
     embed.set_footer(text = author, icon_url = avatar)
     await ctx.send(embed = embed)
     print(f'{guild} -> Участник {author} использовал команду help')
@@ -362,9 +367,9 @@ async def on_member_remove(member):
     await lc.send(f'{name} -> {user} покинул сервер')
 @bot.event
 async def on_raw_reaction_add(reaction: discord.RawReactionActionEvent):
-    if not reaction.message_id == 746320495615410189:
+    if not reaction.message_id == 746320495615410189:  # ID сообщения на которое нужно ставить реакции
         return
-    if not reaction.emoji.name == "✅":
+    if not reaction.emoji.name == "✅":  # или payload.emoji.name == "✔" для unicode-эмодзей
         return
     if member := reaction.member:
         await member.add_roles(member.guild.get_role(746051787152425083))
