@@ -313,9 +313,6 @@ async def help(ctx):
     await ctx.send(embed = embed)
     print(f'{guild} -> Участник {author} использовал команду help')
     await lc.send(f'{guild}  -> Участник {author} использовал команду help')
-@bot.command()
-async def v(ctx):
-    await ctx.send('**Для получения роли нажми на ✅**',file = File('verify.png'))
 #=====================================================================================Events=====================================================================================
 @bot.event
 async def on_command_error(ctx, error):
