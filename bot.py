@@ -361,9 +361,9 @@ async def on_member_remove(member):
     await lc.send('%(name)s -> %(user)s покинул сервер' %{'user': user, 'name': name})
 @bot.event
 async def on_raw_reaction_add(reaction: discord.RawReactionActionEvent):
-    if not reaction.message_id == 746045697526071418: 
+    if not reaction.message_id == 746320495615410189:  # ID сообщения на которое нужно ставить реакции
         return
-    if not reaction.emoji.id == 746047427202515085:  
+    if not reaction.emoji.name == "✅":  # или payload.emoji.name == "✔" для unicode-эмодзей
         return
     if member := reaction.member:
         await member.add_roles(member.guild.get_role(746051787152425083))
