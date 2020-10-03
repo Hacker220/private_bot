@@ -63,6 +63,7 @@ async def userinfo(ctx, member: discord.Member = None):
         avatar = ctx.message.author.avatar
         id = ctx.message.author.id
         time = ctx.message.author.created_at
+        status = ctx.message.author.status
         if avatar == None:
             vicon = 'Отсутствует'
         else:
@@ -72,14 +73,16 @@ async def userinfo(ctx, member: discord.Member = None):
             embed.add_field(name = 'Никнейм:', value = name)
             embed.add_field(name = 'Аватар:', value = vicon)
             embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Статус', value  = status)
             embed.add_field(name = 'Время создания аккаунта:', value = time)
-            embed.set_thumbnail(url = avatar_url)
+            embed.set_thumbnail(url = author_url)
             embed.set_footer(text = author, icon_url = author_url)
         else:
             embed = discord.Embed(title='Инфо о пользователе',colour=discord.Colour.gold())
             embed.add_field(name = 'Никнейм:', value = name)
             embed.add_field(name = 'Аватар:', value = vicon)
             embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Статус', value  = status)
             embed.add_field(name = 'Время создания аккаунта:', value = time)
             embed.set_footer(text = author, icon_url = author_url)
         await ctx.send(embed = embed)
@@ -91,6 +94,7 @@ async def userinfo(ctx, member: discord.Member = None):
         avatar_url = member.avatar_url
         id = member.id
         time = member.created_at
+        status = member.status
         if avatar == None:
             vicon = 'Отсутствует'
         else:
@@ -100,6 +104,7 @@ async def userinfo(ctx, member: discord.Member = None):
             embed.add_field(name = 'Никнейм:', value = name)
             embed.add_field(name = 'Аватар:', value = vicon)
             embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Статус', value  = status)
             embed.add_field(name = 'Время создания аккаунта:', value = time)
             embed.set_thumbnail(url = avatar_url)
             embed.set_footer(text = author, icon_url = author_url)
@@ -108,6 +113,7 @@ async def userinfo(ctx, member: discord.Member = None):
             embed.add_field(name = 'Никнейм:', value = name)
             embed.add_field(name = 'Аватар:', value = vicon)
             embed.add_field(name = 'Id:', value  = id, inline = False)
+            embed.add_field(name = 'Статус', value  = status)
             embed.add_field(name = 'Время создания аккаунта:', value = time)
             embed.set_footer(text = author, icon_url = author_url)
         await ctx.send(embed = embed)
@@ -314,15 +320,51 @@ async def help(ctx):
     embed = discord.Embed(title = 'Помощь с командами', colour = discord.Colour.gold())
     embed.add_field(name = 'Пользовательские команды:', value = '___help | userinfo | invite___', inline = False)
     embed.add_field(name = 'Команды для администраторов', value = '___mute | unmute | kick | ban | clear___', inline = False)
+    embed.add_field(name = 'Команды для развлечения', value = '___dog | cat | fox | panda | koala___', inline = False)
     embed.set_footer(text = author, icon_url = avatar)
     await ctx.send(embed = embed)
     print(f'{guild} -> Участник {author} использовал команду help')
     await lc.send(f'{guild}  -> Участник {author} использовал команду help')
+@bot.command(aliases = ['кот'])
+async def cat(ctx):
+    response = requests.get('https://some-random-api.ml/img/cat')
+    json_data = json.loads(response.text)
+    embed = discord.Embed(color=0xff9900, title='Изображение:')
+    embed.set_image(url=json_data['link'])
+    await ctx.send(embed=embed)
+@bot.command(aliases = ['собака'])
+async def dog(ctx):
+    response = requests.get('https://some-random-api.ml/img/dog')
+    json_data = json.loads(response.text)
+    embed = discord.Embed(color=0xff9900, title='Изображение:')
+    embed.set_image(url=json_data['link'])
+    await ctx.send(embed=embed)
+@bot.command(aliases = ['лиса'])
+async def fox(ctx):
+    response = requests.get('https://some-random-api.ml/img/fox')
+    json_data = json.loads(response.text)
+    embed = discord.Embed(color=0xff9900, title='Изображение:')
+    embed.set_image(url=json_data['link'])
+    await ctx.send(embed=embed)
+@bot.command(aliases = ['панда'])
+async def panda(ctx):
+    response = requests.get('https://some-random-api.ml/img/panda')
+    json_data = json.loads(response.text)
+    embed = discord.Embed(color=0xff9900, title='Изображение:')
+    embed.set_image(url=json_data['link'])
+    await ctx.send(embed=embed)
+@bot.command(aliases = ['коала'])
+async def koala(ctx):
+    response = requests.get('https://some-random-api.ml/img/koala')
+    json_data = json.loads(response.text)
+    embed = discord.Embed(color=0xff9900, title='Изображение:')
+    embed.set_image(url=json_data['link'])
+    await ctx.send(embed=embed)
 #=====================================================================================Events=====================================================================================
-#@bot.event
-#async def on_command_error(ctx, error):
-    #if isinstance(error, commands.CommandNotFound ):
-        #await ctx.send(embed = discord.Embed(description = f'** {ctx.author.name}, данной команды не существует.**', colour = discord.Colour.red()))
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound ):
+        await ctx.send(embed = discord.Embed(description = f'** {ctx.author.name}, данной команды не существует.**', colour = discord.Colour.red()))
 @bot.event
 async def on_ready():
     lg = bot.get_guild(739951510892314654)
