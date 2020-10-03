@@ -319,10 +319,10 @@ async def help(ctx):
     print(f'{guild} -> Участник {author} использовал команду help')
     await lc.send(f'{guild}  -> Участник {author} использовал команду help')
 #=====================================================================================Events=====================================================================================
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound ):
-        await ctx.send(embed = discord.Embed(description = f'** {ctx.author.name}, данной команды не существует.**', colour = discord.Colour.red()))
+#@bot.event
+#async def on_command_error(ctx, error):
+    #if isinstance(error, commands.CommandNotFound ):
+        #await ctx.send(embed = discord.Embed(description = f'** {ctx.author.name}, данной команды не существует.**', colour = discord.Colour.red()))
 @bot.event
 async def on_ready():
     lg = bot.get_guild(739951510892314654)
