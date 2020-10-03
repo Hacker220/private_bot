@@ -3,3 +3,5 @@ asyncio
 aiohttp
 websockets
 chardet
+json
+requests
